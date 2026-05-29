@@ -1,0 +1,45 @@
+{
+  "name": "my-blog",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "prisma:generate": "prisma generate --schema ./prisma/schema.prisma",
+    "prisma:migrate": "prisma migrate dev --schema ./prisma/schema.prisma",
+    "seed:admin": "node scripts/seed-admin.mjs"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "framer-motion": "^12.38.0",
+    "gray-matter": "^4.0.3",
+    "gsap": "^3.15.0",
+    "lucide-react": "^1.9.0",
+    "next": "^16.2.4",
+    "next-auth": "^4.24.14",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "tailwindcss": "^4.2.4",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/postcss": "^4.1.16",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.5.0",
+    "eslint": "^10.2.1",
+    "eslint-config-next": "^16.2.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.5.0",
+    "postcss": "^8.5.10",
+    "prisma": "^6.8.2"
+  }
+}

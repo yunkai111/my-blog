@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Measure-Command *)",
+      "PowerShell(curl.exe -s -o NUL -w \"home %{time_total}s`n\" \"http://localhost:3000/\"; curl.exe -s -o NUL -w \"musings %{time_total}s`n\" \"http://localhost:3000/musings\"; curl.exe -s -o NUL -w \"monologue %{time_total}s`n\" \"http://localhost:3000/monologue\"; curl.exe -s -o NUL -w \"home_again %{time_total}s`n\" \"http://localhost:3000/\")",
+      "PowerShell(curl.exe -s -o NUL -w \"admin_login %{time_total}s`n\" \"http://localhost:3000/admin/login\"; curl.exe -s -o NUL -w \"admin_posts %{time_total}s`n\" \"http://localhost:3000/admin/posts\"; curl.exe -s -o NUL -w \"api_posts %{time_total}s`n\" \"http://localhost:3000/api/admin/posts\")",
+      "PowerShell(npm run *)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(curl.exe -I --max-time 10 \"http://127.0.0.1:3000/\")",
+      "Bash(npm run *)",
+      "PowerShell(Move-Item *)",
+      "PowerShell(taskkill *)",
+      "Bash(git -C \"D:\\\\code\\\\my-blog\" rev-parse --is-inside-work-tree)",
+      "Bash(gh --version)",
+      "Bash(git config *)",
+      "PowerShell(git *)",
+      "PowerShell(git add *)"
+    ]
+  }
+}
