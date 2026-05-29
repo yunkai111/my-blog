@@ -14,7 +14,9 @@
       "Bash(gh --version)",
       "Bash(git config *)",
       "PowerShell(git *)",
-      "PowerShell(git add *)"
+      "PowerShell(git add *)",
+      "PowerShell(git config *)",
+      "PowerShell(.\\\\scripts\\\\push.ps1 \"chore: add one-shot push script\" 2>&1)"
     ]
   }
 }

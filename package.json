@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "prisma:generate": "prisma generate --schema ./prisma/schema.prisma",
     "prisma:migrate": "prisma migrate dev --schema ./prisma/schema.prisma",
-    "seed:admin": "node scripts/seed-admin.mjs"
+    "seed:admin": "node scripts/seed-admin.mjs",
+    "push": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/push.ps1"
   },
   "dependencies": {
     "@prisma/client": "^6.8.2",
