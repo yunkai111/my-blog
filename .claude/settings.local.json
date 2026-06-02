@@ -16,7 +16,9 @@
       "PowerShell(git *)",
       "PowerShell(git add *)",
       "PowerShell(git config *)",
-      "PowerShell(.\\\\scripts\\\\push.ps1 \"chore: add one-shot push script\" 2>&1)"
+      "PowerShell(.\\\\scripts\\\\push.ps1 \"chore: add one-shot push script\" 2>&1)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell(cd \"D:\\\\code\\\\my-blog\"; powershell -File \".\\\\scripts\\\\push.ps1\" \"perf: client component split + particle performance optimization\")"
     ]
   }
 }

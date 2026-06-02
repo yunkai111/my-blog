@@ -1,8 +1,12 @@
-import { HomePageClient } from '@/components/home-page-client'
+import { BlogShell, HomePage } from '@/components/blog-shell'
 import { getHomepagePosts } from '@/lib/posts'
 
 export default async function Home() {
   const articles = await getHomepagePosts()
 
-  return <HomePageClient articles={articles} />
+  return (
+    <BlogShell>
+      <HomePage articles={articles} />
+    </BlogShell>
+  )
 }

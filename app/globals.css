@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200;400;700&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
+@theme {
+  --color-paper: #fafaf8;
+}
+
 @layer base {
   body {
     font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;

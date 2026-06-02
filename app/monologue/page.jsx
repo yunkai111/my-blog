@@ -8,7 +8,7 @@ export default async function MonologueRoute() {
 
   return (
     <BlogShell>
-      <article className="min-h-screen bg-[#fafaf8] px-6 pb-24 pt-36">
+      <article className="min-h-screen bg-paper px-6 pb-24 pt-36">
         <div className="mx-auto max-w-xl">
           <p className="text-xs tracking-[0.3em] text-slate-500 font-medium">独白</p>
           <h1 className="mt-4 font-serif text-4xl font-bold tracking-[0.2em] text-slate-900">{monologue.title}</h1>
