@@ -18,7 +18,13 @@
       "PowerShell(git config *)",
       "PowerShell(.\\\\scripts\\\\push.ps1 \"chore: add one-shot push script\" 2>&1)",
       "PowerShell(Get-NetTCPConnection *)",
-      "PowerShell(cd \"D:\\\\code\\\\my-blog\"; powershell -File \".\\\\scripts\\\\push.ps1\" \"perf: client component split + particle performance optimization\")"
+      "PowerShell(cd \"D:\\\\code\\\\my-blog\"; powershell -File \".\\\\scripts\\\\push.ps1\" \"perf: client component split + particle performance optimization\")",
+      "PowerShell(Stop-Process *)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(curl -s http://localhost:3000)",
+      "PowerShell(.\\\\scripts\\\\push.ps1 \"feat: tilt card glow, icon actions, drag-drop upload, magnetic button, admin UI refresh\")"
     ]
   }
 }

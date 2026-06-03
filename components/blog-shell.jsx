@@ -13,6 +13,7 @@ import {
   useSpring,
 } from 'framer-motion'
 import { useState, useRef, useMemo, useEffect, useCallback } from 'react'
+import { TiltCard } from '@/components/tilt-card'
 
 const navItems = [
   { path: '/', label: '源点' },
@@ -419,15 +420,17 @@ function ContentSection({ articles }) {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: i * 0.15 }}
           >
-            <Link
-              href={`/musings/${art.slug}`}
-              className="group block rounded-[4rem] bg-white/30 backdrop-blur-xl border border-white/40 px-10 py-10 md:px-14 md:py-12 hover:bg-white/50 hover:border-amber-300/60 hover:shadow-lg hover:shadow-amber-100/30 transition-all duration-700"
-            >
-              <h3 className="text-xl md:text-2xl font-serif font-bold text-slate-800 group-hover:text-amber-700 transition-colors duration-500 mb-3">
-                {art.title}
-              </h3>
-              <p className="text-slate-500/90 leading-relaxed text-sm md:text-base max-w-xl">{art.excerpt}</p>
-            </Link>
+            <TiltCard className="rounded-[4rem]" tiltAmount={8}>
+              <Link
+                href={`/musings/${art.slug}`}
+                className="group block rounded-[4rem] bg-white/30 backdrop-blur-xl border border-white/40 px-10 py-10 md:px-14 md:py-12 hover:bg-white/50 hover:border-amber-300/60 hover:shadow-lg hover:shadow-amber-100/30 transition-all duration-700"
+              >
+                <h3 className="text-xl md:text-2xl font-serif font-bold text-slate-800 group-hover:text-amber-700 transition-colors duration-500 mb-3">
+                  {art.title}
+                </h3>
+                <p className="text-slate-500/90 leading-relaxed text-sm md:text-base max-w-xl">{art.excerpt}</p>
+              </Link>
+            </TiltCard>
           </motion.div>
         ))}
       </div>
@@ -476,16 +479,18 @@ export function MusingsPage({ groups }) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: pi * 0.12 }}
                   >
-                    <Link href={`/musings/${piece.slug}`} className="group block cursor-pointer">
-                      <h3
-                        className="text-2xl font-serif font-bold text-slate-800 group-hover:text-amber-700 transition-colors duration-500 mb-3"
-                        style={titleTs}
-                      >
-                        {piece.title}
-                      </h3>
-                      <p className="text-slate-600/90 leading-loose text-sm max-w-md">{piece.excerpt}</p>
-                      <div className="mt-4 h-px w-0 group-hover:w-16 bg-amber-300/60 transition-all duration-700" />
-                    </Link>
+                    <TiltCard tiltAmount={8} className="rounded-3xl">
+                      <Link href={`/musings/${piece.slug}`} className="group block cursor-pointer rounded-3xl bg-white/30 backdrop-blur-xl border border-white/40 px-8 py-6 hover:bg-white/50 hover:border-amber-300/60 transition-all duration-500">
+                        <h3
+                          className="text-2xl font-serif font-bold text-slate-800 group-hover:text-amber-700 transition-colors duration-500 mb-3"
+                          style={titleTs}
+                        >
+                          {piece.title}
+                        </h3>
+                        <p className="text-slate-600/90 leading-loose text-sm max-w-md">{piece.excerpt}</p>
+                        <div className="mt-4 h-px w-0 group-hover:w-16 bg-amber-300/60 transition-all duration-700" />
+                      </Link>
+                    </TiltCard>
                   </motion.div>
                 ))}
               </div>

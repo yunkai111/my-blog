@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Trash2 } from 'lucide-react'
 
 export function AdminPostDeleteButton({ postId, postTitle }) {
   const [pending, setPending] = useState(false)
@@ -29,8 +30,14 @@ export function AdminPostDeleteButton({ postId, postTitle }) {
   }
 
   return (
-    <button type="button" onClick={handleDelete} disabled={pending} className="text-slate-500 transition hover:text-rose-600 disabled:opacity-50">
-      -
+    <button
+      type="button"
+      onClick={handleDelete}
+      disabled={pending}
+      title="删除"
+      className="inline-flex size-8 items-center justify-center rounded-full bg-red-50 text-red-400 transition hover:bg-red-100 hover:text-red-600 disabled:opacity-50"
+    >
+      <Trash2 size={15} />
     </button>
   )
 }
