@@ -412,55 +412,37 @@ function HeroSection({ scrollYProgress, isMobile }) {
 
 function ContentSection({ articles }) {
   return (
-    <div className="relative mx-auto max-w-5xl px-6 pb-32 pt-24">
-      {/* Timeline axis */}
-      <div className="absolute left-4 top-24 bottom-0 w-px bg-slate-200/40 md:left-1/2 md:-translate-x-px" />
+    <div className="mx-auto max-w-6xl px-6 pb-32 pt-24">
+      <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+        className="mb-16 text-center">
+        <p className="text-xs font-bold tracking-[0.3em] text-slate-400 uppercase">Recent Writings</p>
+      </motion.div>
 
-      <div className="space-y-20 md:space-y-28">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {articles.map((art, i) => {
-          const isLeft = i % 2 === 0
+          const isFirst = i === 0
           return (
-            <motion.div
-              key={art.slug}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, delay: i * 0.12 }}
-              className="relative pl-10 md:pl-0"
-            >
-              {/* Axis dot */}
-              <div className="absolute left-[10px] top-6 z-10 size-[9px] rounded-full border-2 border-slate-200 bg-white md:left-1/2 md:-translate-x-1/2" />
-
-              {/* Card */}
-              <div className={`md:w-[calc(50%-28px)] ${isLeft ? 'md:mr-auto md:pr-4' : 'md:ml-auto md:pl-4'}`}>
-                <TiltCard tiltAmount={14} glow={false} className="overflow-hidden rounded-[3rem]">
-                  <Link
-                    href={`/musings/${art.slug}`}
-                    className="group relative block overflow-hidden rounded-[3rem] border border-white/40 bg-white/30 p-6 backdrop-blur-xl transition-all duration-500 hover:border-amber-300/60 hover:bg-white/50 hover:shadow-lg hover:shadow-amber-100/30 md:p-8"
-                  >
-                    {/* Cover thumbnail */}
-                    {art.coverImage && (
-                      <div className="relative z-10 mb-5 aspect-[16/9] w-full overflow-hidden rounded-[2rem] bg-slate-50">
-                        <img
-                          src={art.coverImage}
-                          alt=""
-                          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
-                    )}
-
-                    <div className="relative z-10">
-                      <h3 className="font-serif text-xl font-bold text-slate-800 transition-colors duration-300 group-hover:text-amber-700 md:text-2xl">
-                        {art.title}
-                      </h3>
-                      <p className="mt-3 text-sm leading-relaxed text-slate-500 md:text-base">
-                        {art.excerpt}
-                      </p>
+            <motion.div key={art.slug} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.6, delay: i * 0.1 }}
+              className={isFirst ? 'md:col-span-2' : ''}>
+              <TiltCard tiltAmount={isFirst ? 10 : 8} glow={false} className="overflow-hidden rounded-[3rem]">
+                <Link href={`/musings/${art.slug}`}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-[3rem] border border-white/40 bg-white/30 backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-amber-300/60 hover:bg-white/50 hover:shadow-xl hover:shadow-amber-100/30">
+                  {art.coverImage && (
+                    <div className={`overflow-hidden bg-slate-100 ${isFirst ? 'aspect-[21/9]' : 'aspect-[16/9]'}`}>
+                      <img src={art.coverImage} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
                     </div>
-                  </Link>
-                </TiltCard>
-              </div>
+                  )}
+                  <div className={`flex flex-1 flex-col justify-center p-6 ${isFirst ? 'md:p-10' : 'md:p-8'}`}>
+                    <h3 className={`font-serif font-bold leading-tight text-slate-800 transition-colors duration-300 group-hover:text-amber-700 ${isFirst ? 'text-2xl md:text-3xl' : 'text-xl md:text-2xl'}`}>
+                      {art.title}
+                    </h3>
+                    <p className={`mt-3 leading-relaxed text-slate-500 ${isFirst ? 'text-base md:text-lg' : 'text-sm md:text-base'}`}>
+                      {art.excerpt}
+                    </p>
+                  </div>
+                </Link>
+              </TiltCard>
             </motion.div>
           )
         })}
@@ -470,7 +452,6 @@ function ContentSection({ articles }) {
 }
 
 export function MusingsPage({ groups }) {
-  // Flatten all pieces with global index
   let globalIdx = 0
   const allPieces = groups.flatMap((g) =>
     g.pieces.map((p) => ({
@@ -482,84 +463,44 @@ export function MusingsPage({ groups }) {
 
   return (
     <div className="min-h-screen bg-paper">
-      <div className="mx-auto max-w-5xl px-6 pt-36 pb-32">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-24 text-center"
-        >
-          <h1 className="font-serif text-5xl font-bold tracking-[0.2em] text-slate-900">随写</h1>
+      <div className="mx-auto max-w-3xl px-6 pt-36 pb-32">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }} className="mb-20">
+          <h1 className="font-serif text-4xl font-bold tracking-[0.15em] text-slate-900">随写</h1>
+          <p className="mt-2 text-xs tracking-widest text-slate-400">{allPieces.length} 篇文章</p>
         </motion.div>
 
-        {/* Timeline axis */}
-        <div className="relative">
-          {/* The central line — hidden on mobile, visible on md+ */}
-          <div className="absolute left-4 top-0 bottom-0 w-px bg-slate-200/70 md:left-1/2 md:-translate-x-px" />
+        <div className="space-y-1">
+          {allPieces.map((piece, i) => {
+            const d = new Date(piece.publishedAt || piece.year)
+            const dateStr = d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
 
-          <div className="space-y-16 md:space-y-24">
-            {allPieces.map((piece, i) => {
-              const isLeft = i % 2 === 0
-              const date = new Date(piece.publishedAt || piece.year)
-                .toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
-
-              return (
-                <motion.div
-                  key={piece.slug}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.6, delay: (i % 6) * 0.06 }}
-                  className="relative pl-10 md:pl-0"
-                >
-                  {/* Axis dot */}
-                  <div className="absolute left-[10px] top-5 z-10 size-[9px] rounded-full border-2 border-slate-200 bg-white md:left-1/2 md:-translate-x-1/2" />
-
-                  {/* Card — left or right */}
-                  <div
-                    className={`md:w-[calc(50%-28px)] ${
-                      isLeft ? 'md:mr-auto md:pr-2' : 'md:ml-auto md:pl-2'
-                    }`}
-                  >
-                    {/* Date label above card */}
-                    <span className="mb-2 block text-[11px] font-medium tracking-widest text-slate-400">
-                      {piece.year} · {date}
-                    </span>
-
-                    <Link
-                      href={`/musings/${piece.slug}`}
-                      className="group block overflow-hidden rounded-2xl bg-white/60 transition-all duration-500 hover:bg-amber-50/30 hover:shadow-lg hover:shadow-amber-100/20"
-                    >
-                      {piece.coverImage && (
-                        <div className="aspect-[16/9] w-full overflow-hidden bg-slate-100">
-                          <img
-                            src={piece.coverImage}
-                            alt=""
-                            className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                            loading="lazy"
-                          />
-                        </div>
-                      )}
-                      <div className="p-5 md:p-6">
-                        <h3 className="font-serif text-lg font-bold leading-snug text-slate-800 transition-colors duration-300 group-hover:text-amber-800 md:text-xl">
-                          {piece.title}
-                        </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-500">
-                          {piece.excerpt?.length > 100
-                            ? piece.excerpt.slice(0, 100) + '…'
-                            : piece.excerpt}
-                        </p>
-                      </div>
-                    </Link>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
+            return (
+              <motion.div key={piece.slug}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: (i % 12) * 0.03 }}>
+                <Link href={`/musings/${piece.slug}`}
+                  className="group flex items-center gap-4 rounded-xl px-4 py-3.5 transition hover:bg-slate-50">
+                  {/* Date */}
+                  <span className="shrink-0 text-xs tabular-nums tracking-tight text-slate-400 w-24">
+                    {dateStr}
+                  </span>
+                  {/* Title */}
+                  <h3 className="min-w-0 flex-1 truncate font-serif text-base font-medium text-slate-700 transition-colors group-hover:text-amber-700">
+                    {piece.title}
+                  </h3>
+                  {/* Year tag */}
+                  <span className="hidden shrink-0 rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-400 sm:inline-block">
+                    {piece.year}
+                  </span>
+                </Link>
+              </motion.div>
+            )
+          })}
         </div>
 
-        {/* Footer */}
         <div className="h-32" />
       </div>
     </div>
