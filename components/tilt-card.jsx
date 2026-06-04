@@ -41,7 +41,7 @@ export function TiltCard({
 
   // Warm amber glow, no white center.
   const glowBg = useTransform([rawX, rawY], ([x, y]) =>
-    `radial-gradient(circle 125px at ${x * 100}% ${y * 100}%, rgba(193, 233, 189, 0.66) 0%, rgba(193, 233, 189, 0.29) 50%, transparent 70%)`,
+    `radial-gradient(circle 125px at ${x * 100}% ${y * 100}%, rgba(204, 226, 235, 0.66) 0%, rgba(196, 216, 224, 0.29) 50%, transparent 70%)`,
   )
 
   const handleMouseMove = useCallback(

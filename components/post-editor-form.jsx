@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { ImageIcon, Upload, X } from 'lucide-react'
 
 const toolbarActions = [
   { label: 'H1', apply: (value) => `# ${value || '标题'}` },
@@ -86,6 +87,7 @@ function createInitialState(post) {
     title: extractMarkdownTitle(markdown) || (post?.title ?? ''),
     excerpt: post?.excerpt ?? '',
     slug: post?.slug ?? '',
+    coverImage: post?.coverImage ?? '',
     publishedAt: toDatetimeLocalInput(post?.publishedAt ?? new Date().toISOString()),
     isPublished: post?.isPublished ?? true,
     markdown,
@@ -220,6 +222,43 @@ export function PostEditorForm({ mode, post }) {
           <input value={form.slug} onChange={(event) => updateField('slug', event.target.value.toLowerCase())} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-amber-500" placeholder="留空时按标题生成" />
         </label>
         <label className="block md:col-span-2">
+          <span className="mb-2 block text-sm text-slate-600">封面图</span>
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <ImageIcon size={16} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                value={form.coverImage}
+                onChange={(event) => updateField('coverImage', event.target.value)}
+                className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 outline-none transition focus:border-amber-500"
+                placeholder="图片 URL 或点击右侧按钮本地上传"
+              />
+            </div>
+            <UploadCoverButton
+              onUploaded={(url) => updateField('coverImage', url)}
+            />
+            {form.coverImage && (
+              <button
+                type="button"
+                onClick={() => updateField('coverImage', '')}
+                className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-400 transition hover:bg-rose-50 hover:text-rose-500"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+          {/* Cover preview */}
+          {form.coverImage && (
+            <div className="relative mt-3 aspect-[16/9] max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+              <img
+                src={form.coverImage}
+                alt="封面预览"
+                className="h-full w-full object-cover"
+                onError={(e) => { e.currentTarget.style.display = 'none' }}
+              />
+            </div>
+          )}
+        </label>
+        <label className="block md:col-span-2">
           <span className="mb-2 block text-sm text-slate-600">摘要</span>
           <textarea value={form.excerpt} onChange={(event) => updateField('excerpt', event.target.value)} rows={3} className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-amber-500" placeholder="留空时按正文自动生成摘要" />
         </label>
@@ -262,5 +301,62 @@ export function PostEditorForm({ mode, post }) {
         {pending ? (isEdit ? '保存中…' : '创建中…') : (isEdit ? '保存文章' : '创建文章')}
       </button>
     </form>
+  )
+}
+
+function UploadCoverButton({ onUploaded }) {
+  const [uploading, setUploading] = useState(false)
+  const [err, setErr] = useState('')
+  const inputRef = useRef(null)
+
+  function validate(file) {
+    if (!file) return false
+    const mime = (file.type || '').toLowerCase()
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? ''
+    const mimeOk = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(mime)
+    const extOk = ['jpg', 'jpeg', 'png', 'webp'].includes(ext)
+    if (!mimeOk && !extOk) { setErr('仅支持 JPEG / PNG / WebP'); return false }
+    if (file.size > 2 * 1024 * 1024) { setErr('图片不能超过 2MB'); return false }
+    setErr('')
+    return true
+  }
+
+  async function handleFileChange(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!validate(file)) return
+
+    setUploading(true)
+    setErr('')
+    const fd = new FormData()
+    fd.set('file', file)
+
+    try {
+      const res = await fetch('/api/admin/uploads/image', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        onUploaded(data.url)
+      } else {
+        setErr(data?.error ?? '上传失败')
+      }
+    } catch {
+      setErr('网络错误，请重试')
+    } finally {
+      setUploading(false)
+      if (inputRef.current) inputRef.current.value = ''
+    }
+  }
+
+  return (
+    <div className="flex shrink-0 items-center gap-1">
+      <input ref={inputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleFileChange} />
+      <button type="button" disabled={uploading}
+        onClick={() => inputRef.current?.click()}
+        className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-amber-400 hover:text-amber-600 disabled:opacity-50"
+        title="本地上传封面图">
+        <Upload size={16} className={uploading ? 'animate-pulse' : ''} />
+      </button>
+      {err && <span className="text-xs text-rose-600">{err}</span>}
+    </div>
   )
 }

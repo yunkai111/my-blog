@@ -60,12 +60,15 @@ export function MagneticButton({
   }, [x, y])
 
   return (
-    <div ref={wrapperRef} className={`relative inline-block ${className}`}>
-      {/* Invisible sensing halo — extends beyond the button without affecting layout */}
+    <div
+      ref={wrapperRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`relative inline-block ${className}`}
+    >
+      {/* Invisible sensing halo — pointer-events-none so clicks pass through */}
       <div
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className="absolute z-10"
+        className="pointer-events-none absolute"
         style={{ top: -radius, right: -radius, bottom: -radius, left: -radius }}
       />
       <motion.div style={{ x: springX, y: springY }}>

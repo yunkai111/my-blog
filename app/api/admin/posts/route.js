@@ -40,6 +40,7 @@ export async function POST(request) {
         id: created.id,
         slug: created.slug,
         title: created.title,
+        coverImage: created.coverImage,
       },
     })
   } catch (error) {

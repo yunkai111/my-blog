@@ -41,6 +41,7 @@ export async function PATCH(request, { params }) {
         id: updated.id,
         slug: updated.slug,
         title: updated.title,
+        coverImage: updated.coverImage,
       },
     })
   } catch (error) {

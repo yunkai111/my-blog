@@ -24,7 +24,10 @@
       "Bash(pkill -f \"next dev\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
       "Bash(curl -s http://localhost:3000)",
-      "PowerShell(.\\\\scripts\\\\push.ps1 \"feat: tilt card glow, icon actions, drag-drop upload, magnetic button, admin UI refresh\")"
+      "PowerShell(.\\\\scripts\\\\push.ps1 \"feat: tilt card glow, icon actions, drag-drop upload, magnetic button, admin UI refresh\")",
+      "Bash(npx prisma *)",
+      "Bash(curl *)",
+      "PowerShell(.\\\\scripts\\\\push.ps1 \"chore: code optimization - DRY posts.js, remove dead imports\")"
     ]
   }
 }

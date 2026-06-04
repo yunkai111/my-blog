@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { BlogShell } from '@/components/blog-shell'
+import { MarkdownRenderer } from '@/components/markdown-renderer'
 import { getPublishedPostBySlug } from '@/lib/posts'
 
 export default async function PostDetailPage({ params }) {
@@ -24,11 +23,16 @@ export default async function PostDetailPage({ params }) {
             <p className="text-xs uppercase tracking-[0.35em] text-slate-400">
               {post.publishedAt.toLocaleDateString('zh-CN')}
             </p>
-            <h1 className="mt-4 font-serif text-4xl font-bold tracking-[0.1em] text-slate-900">{post.title}</h1>
+            {post.coverImage && (
+              <div className="mt-6 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-slate-100">
+                <img src={post.coverImage} alt="" className="h-full w-full object-cover" />
+              </div>
+            )}
+            <h1 className="mt-6 font-serif text-4xl font-bold tracking-[0.1em] text-slate-900">{post.title}</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600">{post.excerpt}</p>
           </header>
-          <div className="prose-custom mt-12 space-y-6 text-base">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.markdown}</ReactMarkdown>
+          <div className="mt-12">
+            <MarkdownRenderer>{post.markdown}</MarkdownRenderer>
           </div>
         </div>
       </article>
