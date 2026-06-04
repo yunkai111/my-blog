@@ -5,7 +5,7 @@ export const metadata = {
   title: 'Yunkai Blog',
   description: '一个逐步生长的个人博客。',
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.ico?v=2',
   },
 }
 

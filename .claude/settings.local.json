@@ -27,7 +27,8 @@
       "PowerShell(.\\\\scripts\\\\push.ps1 \"feat: tilt card glow, icon actions, drag-drop upload, magnetic button, admin UI refresh\")",
       "Bash(npx prisma *)",
       "Bash(curl *)",
-      "PowerShell(.\\\\scripts\\\\push.ps1 \"chore: code optimization - DRY posts.js, remove dead imports\")"
+      "PowerShell(.\\\\scripts\\\\push.ps1 \"chore: code optimization - DRY posts.js, remove dead imports\")",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
