@@ -3,6 +3,8 @@ import remarkGfm from 'remark-gfm'
 import { BlogShell } from '@/components/blog-shell'
 import { getMonologue } from '@/lib/site-content'
 
+export const dynamic = 'force-dynamic'
+
 export default async function MonologueRoute() {
   const monologue = await getMonologue()
 
