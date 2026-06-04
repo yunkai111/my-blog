@@ -463,42 +463,58 @@ export function MusingsPage({ groups }) {
 
   return (
     <div className="min-h-screen bg-paper">
-      <div className="mx-auto max-w-3xl px-6 pt-36 pb-32">
+      <div className="mx-auto max-w-5xl px-6 pt-36 pb-32">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }} className="mb-20">
-          <h1 className="font-serif text-4xl font-bold tracking-[0.15em] text-slate-900">随写</h1>
-          <p className="mt-2 text-xs tracking-widest text-slate-400">{allPieces.length} 篇文章</p>
+          transition={{ duration: 0.8 }} className="mb-24 text-center">
+          <h1 className="font-serif text-5xl font-bold tracking-[0.2em] text-slate-900">随写</h1>
         </motion.div>
 
-        <div className="space-y-1">
-          {allPieces.map((piece, i) => {
-            const d = new Date(piece.publishedAt || piece.year)
-            const dateStr = d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' })
+        <div className="relative">
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-slate-200/70 md:left-1/2 md:-translate-x-px" />
 
-            return (
-              <motion.div key={piece.slug}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: (i % 12) * 0.03 }}>
-                <Link href={`/musings/${piece.slug}`}
-                  className="group flex items-center gap-4 rounded-xl px-4 py-3.5 transition hover:bg-slate-50">
-                  {/* Date */}
-                  <span className="shrink-0 text-xs tabular-nums tracking-tight text-slate-400 w-24">
-                    {dateStr}
-                  </span>
-                  {/* Title */}
-                  <h3 className="min-w-0 flex-1 truncate font-serif text-base font-medium text-slate-700 transition-colors group-hover:text-amber-700">
-                    {piece.title}
-                  </h3>
-                  {/* Year tag */}
-                  <span className="hidden shrink-0 rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-400 sm:inline-block">
-                    {piece.year}
-                  </span>
-                </Link>
-              </motion.div>
-            )
-          })}
+          <div className="space-y-16 md:space-y-24">
+            {allPieces.map((piece, i) => {
+              const isLeft = i % 2 === 0
+              const date = new Date(piece.publishedAt || piece.year)
+                .toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+
+              return (
+                <motion.div key={piece.slug}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.6, delay: (i % 6) * 0.06 }}
+                  className="relative pl-10 md:pl-0">
+                  <div className="absolute left-[10px] top-5 z-10 size-[9px] rounded-full border-2 border-slate-200 bg-white md:left-1/2 md:-translate-x-1/2" />
+
+                  <div className={`md:w-[calc(50%-28px)] ${isLeft ? 'md:mr-auto md:pr-2' : 'md:ml-auto md:pl-2'}`}>
+                    <span className="mb-2 block text-[11px] font-medium tracking-widest text-slate-400">
+                      {piece.year} · {date}
+                    </span>
+
+                    <Link href={`/musings/${piece.slug}`}
+                      className="group block overflow-hidden rounded-2xl bg-white/60 transition-all duration-500 hover:bg-amber-50/30 hover:shadow-lg hover:shadow-amber-100/20">
+                      {piece.coverImage && (
+                        <div className="aspect-[16/9] w-full overflow-hidden bg-slate-100">
+                          <img src={piece.coverImage} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+                        </div>
+                      )}
+                      <div className="p-5 md:p-6">
+                        <h3 className="font-serif text-lg font-bold leading-snug text-slate-800 transition-colors duration-300 group-hover:text-amber-800 md:text-xl">
+                          {piece.title}
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-500">
+                          {piece.excerpt?.length > 100
+                            ? piece.excerpt.slice(0, 100) + '…'
+                            : piece.excerpt}
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
         </div>
 
         <div className="h-32" />
