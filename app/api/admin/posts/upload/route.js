@@ -55,7 +55,7 @@ function containsPathTraversal(name) {
  * Write a cover image to public/uploads/ with a cryptographically random
  * UUID filename. The original filename is discarded entirely.
  *
- * @returns {string} relative URL path like /uploads/<uuid>.jpg
+ * @returns {string} relative URL path like /api/uploads/<uuid>.jpg
  */
 async function persistCoverImage(file) {
   await mkdir(UPLOAD_DIR, { recursive: true })
@@ -70,7 +70,7 @@ async function persistCoverImage(file) {
   const writable = createWriteStream(filePath)
   await pipeline(Readable.from(buffer), writable)
 
-  return `/uploads/${safeName}`
+  return `/api/uploads/${safeName}`
 }
 
 // ── POST ──

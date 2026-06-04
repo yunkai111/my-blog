@@ -69,7 +69,7 @@ export async function POST(request) {
     const writable = createWriteStream(filePath)
     await pipeline(readable, writable)
 
-    const url = `/uploads/${name}`
+    const url = `/api/uploads/${name}`
     return NextResponse.json({ url })
   } catch (error) {
     return NextResponse.json(
