@@ -452,6 +452,12 @@ function ContentSection({ articles }) {
 }
 
 export function MusingsPage({ groups }) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   let globalIdx = 0
   const allPieces = groups.flatMap((g) =>
     g.pieces.map((p) => ({
@@ -475,8 +481,10 @@ export function MusingsPage({ groups }) {
           <div className="space-y-16 md:space-y-24">
             {allPieces.map((piece, i) => {
               const isLeft = i % 2 === 0
-              const date = new Date(piece.publishedAt || piece.year)
-                .toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+              const dateStr = mounted
+                ? new Date(piece.publishedAt || piece.year)
+                    .toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })
+                : ''
 
               return (
                 <motion.div key={piece.slug}
@@ -489,7 +497,7 @@ export function MusingsPage({ groups }) {
 
                   <div className={`md:w-[calc(50%-28px)] ${isLeft ? 'md:mr-auto md:pr-2' : 'md:ml-auto md:pl-2'}`}>
                     <span className="mb-2 block text-[11px] font-medium tracking-widest text-slate-400">
-                      {piece.year} · {date}
+                      {piece.year}{dateStr ? ` · ${dateStr}` : ''}
                     </span>
 
                     <Link href={`/musings/${piece.slug}`}
