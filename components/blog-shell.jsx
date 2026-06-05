@@ -187,9 +187,6 @@ const DUST_SEEDS = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
   }
 })
 
-// Particles derive position from shared motion values, so mousemove never
-// triggers a React render. The spring on mouseX/mouseY (in HomePage) keeps
-// the motion eased; per-particle springs are no longer needed.
 function DustField({ mouseX, mouseY }) {
   return (
     <div className="fixed inset-0 pointer-events-none z-[1]">
@@ -240,10 +237,6 @@ function DustParticle({ config, mouseX, mouseY }) {
   )
 }
 
-// BlogShell only renders chrome (grain + nav) and pass-through children.
-// Page-specific animations (DustField, mouse tracking) live in the page that
-// needs them, so navigating to /musings or /monologue no longer instantiates
-// 45 particles or wires up mousemove handlers.
 export function BlogShell({ children }) {
   const pathname = usePathname()
   const currentPath = pathname || '/'
@@ -308,6 +301,7 @@ export function BlogShell({ children }) {
 }
 
 export function HomePage({ articles }) {
+  // --- ALL hooks declared first, unconditionally ---
   const [isMobile, setIsMobile] = useState(false)
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end end'] })
@@ -331,6 +325,7 @@ export function HomePage({ articles }) {
     },
     [rawMouseX, rawMouseY],
   )
+  // --- End of hooks ---
 
   return (
     <div ref={containerRef} className="relative will-change-transform" style={{ minHeight: '200dvh' }} onMouseMove={handleMouseMove}>
@@ -344,12 +339,15 @@ export function HomePage({ articles }) {
 }
 
 function HeroSection({ scrollYProgress, isMobile }) {
+  // --- ALL hooks declared first, unconditionally ---
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.25])
   const milkOverlay = useTransform(scrollYProgress, [0.55, 0.85], [0, 1])
   const bgBlur = useTransform(scrollYProgress, [0, 0.3, 0.7], [0, 0, 25])
   const textBlur = useTransform(scrollYProgress, [0, 0.3, 0.7], [0, 0, 25])
   const blurFilter = useMotionTemplate`blur(${bgBlur}px)`
   const textFilter = useMotionTemplate`blur(${textBlur}px)`
+  const mobileBlurOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  // --- End of hooks ---
 
   return (
     <div className="relative w-full h-dvh overflow-hidden">
@@ -374,7 +372,7 @@ function HeroSection({ scrollYProgress, isMobile }) {
       {!isMobile && (
         <motion.div
           className="absolute inset-0 z-[3]"
-          style={{ filter: blurFilter, opacity: useTransform(scrollYProgress, [0, 0.3], [0, 1]) }}
+          style={{ filter: blurFilter, opacity: mobileBlurOpacity }}
         >
           <Image src={HERO_IMAGE} alt="" fill sizes="100vw" className="object-cover" />
         </motion.div>
@@ -452,6 +450,7 @@ function ContentSection({ articles }) {
 }
 
 export function MusingsPage({ groups }) {
+  // --- ALL hooks declared first, unconditionally ---
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -466,6 +465,7 @@ export function MusingsPage({ groups }) {
       globalIdx: ++globalIdx,
     })),
   )
+  // --- End of hooks ---
 
   return (
     <div className="min-h-screen bg-paper">
